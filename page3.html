@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>PayPal - Sandbox training</title>
+
+    <link
+      rel="stylesheet prefetch"
+      href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css"
+    />
+
+    <style>
+      @import url("http://fonts.googleapis.com/css?family=Open+Sans:300,400,700");
+      @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css");
+      body {
+        color: #5d5f63;
+        background: #293949;
+        font-family: "Open Sans", sans-serif;
+        padding: 0;
+        margin: 0;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+      }
+      .sidebar-toggle {
+        margin-left: -240px;
+      }
+      .sidebar {
+        width: 240px;
+        height: 100%;
+        background: #293949;
+        position: absolute;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        z-index: 100;
+      }
+      .sidebar #leftside-navigation ul,
+      .sidebar #leftside-navigation ul ul {
+        margin: -2px 0 0;
+        padding: 0;
+      }
+      .sidebar #leftside-navigation ul li {
+        list-style-type: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .sidebar #leftside-navigation ul li.active > a {
+        color: #1abc9c;
+      }
+      .sidebar #leftside-navigation ul li.active ul {
+        display: block;
+      }
+      .sidebar #leftside-navigation ul li a {
+        color: #aeb2b7;
+        text-decoration: none;
+        display: block;
+        padding: 18px 0 18px 25px;
+        font-size: 12px;
+        outline: 0;
+        -webkit-transition: all 200ms ease-in;
+        -moz-transition: all 200ms ease-in;
+        -o-transition: all 200ms ease-in;
+        -ms-transition: all 200ms ease-in;
+        transition: all 200ms ease-in;
+      }
+      .sidebar #leftside-navigation ul li a:hover {
+        color: #1abc9c;
+      }
+      .sidebar #leftside-navigation ul li a span {
+        display: inline-block;
+      }
+      .sidebar #leftside-navigation ul li a i {
+        width: 20px;
+      }
+      .sidebar #leftside-navigation ul li a i .fa-angle-left,
+      .sidebar #leftside-navigation ul li a i .fa-angle-right {
+        padding-top: 3px;
+      }
+      .sidebar #leftside-navigation ul ul {
+        display: none;
+      }
+      .sidebar #leftside-navigation ul ul li {
+        background: #23313f;
+        margin-bottom: 0;
+        margin-left: 0;
+        margin-right: 0;
+        border-bottom: none;
+      }
+      .sidebar #leftside-navigation ul ul li a {
+        font-size: 12px;
+        padding-top: 13px;
+        padding-bottom: 13px;
+        color: #aeb2b7;
+      }
+
+      .smart-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20%;
+      }
+
+      .Donate {
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
+  
+      }
+
+
+  
+
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+  </head>
+
+  <body>
+    <aside class="sidebar">
+      <div id="leftside-navigation" class="nano">
+        <ul class="nano-content">
+          <li>
+            <a href="index.html"
+              ><i class="fa fa-dashboard"></i><span>Início</span></a
+            >
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:void(0);"
+              ><i class="fa fa-cogs"></i><span>Páginas</span
+              ><i class="arrow fa fa-angle-right pull-right"></i
+            ></a>
+
+            <ul>
+              <li><a href="page1.html">Página 1</a></li>
+              <li><a href="page2.html">Página 2</a></li>
+              <li><a href="page3.html">Página 3</a></li>
+              <li><a href="page4.html">Página 4</a></li>
+              <li><a href="page5.html">Página 5</a></li>
+              <li><a href="page6.html">Página 6</a></li>
+              <li><a href="page7.html">Página 7</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+
+    <script src="js/index.js"></script>
+
+   
+<div name="botoes" class="botoes">
+    <div id="smart-button-container" class="smart-button-container">
+        <div style="text-align: center;">
+          <div id="paypal-button-container"></div>
+        </div>
+      </div>
+     
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&locale=es_MX" data-sdk-integration-source="button-factory"></script>
+    <script>
+      function initPayPalButton() {
+        paypal.Buttons({
+          style: {
+            shape: 'rect',
+            color: 'gold',
+            layout: 'vertical',
+            label: 'paypal',
+            
+          },
+  
+          createOrder: function(data, actions) {
+            return actions.order.create({
+              purchase_units: [{"amount":{"currency_code":"USD","value":1}}]
+            });
+          },
+  
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(orderData) {
+              
+              // Full available details
+              console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+  
+              // Show a success message within this page, e.g.
+              const element = document.getElementById('paypal-button-container');
+              element.innerHTML = '';
+              element.innerHTML = '<h3>Thank you for your payment!</h3>';
+  
+              // Or go to another URL:  actions.redirect('thank_you.html');
+              
+            });
+          },
+  
+          onError: function(err) {
+            console.log(err);
+          }
+        }).render('#paypal-button-container');
+      }
+      initPayPalButton();
+    </script>
+
+<form action="https://www.paypal.com/donate" method="post" target="_top" class="Donate">
+  <input type="hidden" name="business" value="EZA4AEENP8M2L" />
+  <input type="hidden" name="no_recurring" value="0" />
+  <input type="hidden" name="item_name" value="vlw!" />
+  <input type="hidden" name="currency_code" value="BRL" />
+  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+  <img alt="" border="0" src="https://www.paypal.com/en_BR/i/scr/pixel.gif" width="1" height="1" />
+  </form>
+</div>
+   
+</html>
